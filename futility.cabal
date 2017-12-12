@@ -3,8 +3,6 @@ version:             0.1.0.0
 synopsis:            Collection of various utility functions and types
 description:         Assorted utility functions, data types, and classes
 homepage:            https://github.com/archaephyrryx/futility#readme
-license:             BSD3
-license-file:        LICENSE
 author:              Peter Duchovni (archaephyrryx)
 maintainer:          Peter Duchovni (archaephyrryx)
 copyright:           2017 Peter Duchovni
