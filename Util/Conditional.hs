@@ -11,10 +11,13 @@ module Util.Conditional (
   -- with the same type signature as 'id', namely @a -> a@.
   (?), (?$), (?<), (?+),
   -- * Functorial Maybe-to-List Operator
-  (?/)
+  (?/),
+  -- * Retrial of failed applications
+  -- | The following operators are used to sequence operations in the case that one fails by yielding a 'Nothing' value, allowing different functions to be applied until one succeeds
+  (/>>/), (/>|/)
 ) where
 
-import Control.Applicative ((<*>),(<$>))
+import Control.Applicative ((<*>),(<$>),(<|>))
 
 infix 9 ?
 infix 9 ?/
@@ -24,6 +27,8 @@ infix 9 ?:
 infixr 8 ?$
 infixr 8 ?.
 infix 9 .=
+infixl 9 />>/
+infixl 8 />|/
 
 -- |A C-style int-to-bool converter (/=0)
 -- Mostly for semantic clarification of C-style int->bool casting
@@ -115,3 +120,9 @@ f?+_ = f
 (?/) :: (a -> [b]) -> Maybe a -> [b]
 f?/Nothing = []
 f?/(Just x) = f x
+
+(/>>/) :: (a -> Maybe b) -> (a -> Maybe b) -> (a -> Maybe b)
+(f/>>/g) x = f x <|> g x
+
+(/>|/) :: (a -> Maybe b) -> (a -> b) -> (a -> Maybe b)
+(f/>|/g) = (f/>>/(Just . g))
