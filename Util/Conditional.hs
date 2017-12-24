@@ -122,7 +122,7 @@ f?/Nothing = []
 f?/(Just x) = f x
 
 (/>>/) :: (a -> Maybe b) -> (a -> Maybe b) -> (a -> Maybe b)
-(f/>>/g) x = f x <|> g x
+(/>>/) f g x = f x <|> g x
 
 (/>|/) :: (a -> Maybe b) -> (a -> b) -> (a -> Maybe b)
-(f/>|/g) = (f/>>/(Just . g))
+(/>|/) f g x = f x <|> (Just $ g x)
