@@ -27,6 +27,7 @@ infix 9 ?:
 infixr 8 ?$
 infixr 8 ?.
 infix 9 .=
+infix 7 ?~
 infixl 9 />>/
 infixl 8 />|/
 
@@ -117,9 +118,13 @@ f?+1 = id
 f?+_ = f
 
 -- |Empty list for Nothing, result of application otherwise
+{-# INLINE (?/) #-}
 (?/) :: (a -> [b]) -> Maybe a -> [b]
-f?/Nothing = []
-f?/(Just x) = f x
+(?/) = maybe []
+
+{-# INLINE (?~) #-}
+(?~) :: (a -> Bool) -> Maybe a -> Bool
+(?~) = maybe False
 
 (/>>/) :: (a -> Maybe b) -> (a -> Maybe b) -> (a -> Maybe b)
 (/>>/) f g x = f x <|> g x
